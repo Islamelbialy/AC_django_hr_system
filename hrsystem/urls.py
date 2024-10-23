@@ -20,6 +20,6 @@ from company import views as companyViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',companyViews.home,name='homeURL'),
+    path('',companyViews.BranchesView,name='homeURL'),
     path('view/',companyViews.view,name='viewURL')
 ]

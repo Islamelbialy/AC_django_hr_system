@@ -46,6 +46,11 @@ django-admin startproject hrsystem or django-admin startproject hrsystem .
 python manage.py runserver or python manage.py runserver [portNo]
 python manage.py startapp company or django-admin startapp myapp
 
+py manage.py migrate
+
+py manage.py makemigrations
+
+python manage.py createsuperuser
 pip3 freeze > requirements.txt
 
 py manage.py migrate
