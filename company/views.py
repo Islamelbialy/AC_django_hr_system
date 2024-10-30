@@ -31,5 +31,10 @@ def BranchesView(request):
    branches  = Branches.objects.all()
    return render(request,"BranchesList.html",{"branches":branches})
 
+def BrancheDetailsView(request,branche_id):
+   # branche = Branches.objects.get(id = branche_id)
+   branche = Branches.objects.get(pk = branche_id)
+   return render(request,"BrancheDetails.html",{"branche":branche})
+
 def view(request):
    return HttpResponse("<h1>view 2</h1>")

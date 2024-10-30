@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{branche.name}} details</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="w-75 mx-auto mt-5">
+            <div class="bg-secondary-subtle mt-3 p-1 ps-3 pt-3 mb-3 rounded-4 shadow-sm">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'Branches' %}">Branches</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{branche.name}}</li>
+                    </ol>
+                </nav>    
+            </div>
+            <div class="bg-secondary-subtle mt-5 rounded-4 shadow-sm p-5 border border-2 border-dark">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 text-primary">{{branche.name}} details</h5>
+                    <p class="card-text">
+                        <strong>Name: </strong>{{branche.name}}<br/>
+                        <strong>Address: </strong>{{branche.address}}<br/>
+                        <strong>email: </strong>{%if branche.email %}{{branche.email}}{%else%}no email{%endif%}<br/>
+                    </p>
+                  </div>
+            </div>
+            <div class="bg-secondary-subtle mt-5 rounded-4 shadow-sm p-5 border border-2 border-dark">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 text-primary">{{branche.name}} Departments</h5>
+                    {%if branche.branche_dept.all%}
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <th>name</th>
+                                <th>phone</th>
+                                <th>describtion</th>
+                            </thead>
+                            <tbody>
+                                {% for department in branche.branche_dept.all %}
+                                    <tr>
+                                        <td>{{department.name}}</td>
+                                        <td>{%if department.phone %}{{department.phone}}{%else%}no phone{%endif%}</td>
+                                        <td>{{department.describtion}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>    
+                    {%else%}
+                        <div class="alert alert-warning" role="alert">
+                           no departments added to this branche
+                        </div>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

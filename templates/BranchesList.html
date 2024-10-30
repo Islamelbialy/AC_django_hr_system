@@ -28,7 +28,7 @@
                     {% for branche in branches %}
                         <tr>
                             <td>
-                                <h3 class="text-primary">{{branche.name}}<h3>
+                                <h3 class="text-primary"><a href="{% url 'BrancheDetails' branche.id %}">{{branche.name}}</a><h3>
                                 <p class="h6 text-secondary">{{branche.address}}</p>
                             </td>
                             <td>{% if branche.email %}
@@ -43,6 +43,7 @@
                     {%endfor%}
                 </tbody>
             </table>
+            <a href="#" class="btn btn-outline-primary">add new Branche</a>
         </div>
     </div>
     
