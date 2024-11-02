@@ -1,24 +1,10 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{branche.name}} details</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="w-75 mx-auto mt-5">
-            <div class="bg-secondary-subtle mt-3 p-1 ps-3 pt-3 mb-3 rounded-4 shadow-sm">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
+{%extends 'base.html'%}
+{%block title%}{{branche.name}} details {%endblock%}
+{%block breadcrumbList%}
                     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'Branches' %}">Branches</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{branche.name}}</li>
-                    </ol>
-                </nav>    
-            </div>
+{%endblock%}
+{%block content%}
             <div class="bg-secondary-subtle mt-5 rounded-4 shadow-sm p-5 border border-2 border-dark">
                 <div class="card-body">
                     <h5 class="card-title mb-3 text-primary">{{branche.name}} details</h5>
@@ -56,8 +42,4 @@
                     {%endif%}
                 </div>
             </div>
-        </div>
-
-    </div>
-</body>
-</html>
+{%endblock%}

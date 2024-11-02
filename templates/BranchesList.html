@@ -1,23 +1,12 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brnches List</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="w-75 mx-auto mt-5">
-            <div class="bg-secondary-subtle mt-3 p-1 ps-3 pt-3 mb-3 rounded-4 shadow-sm">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
+{%extends 'base.html'%}
+{%block title%}
+Brnches List
+{%endblock%}
+{%block breadcrumbList%}
                     <li class="breadcrumb-item active" aria-current="page">Branches</li>
-                    </ol>
-                </nav>    
-            </div>
+{%endblock%}      
+{%block content%}         
+        <div class="mb-3">
             <table class="table table-striped table-hover">
                 <thead class="table-dark">
                     <th>name</th>
@@ -43,9 +32,6 @@
                     {%endfor%}
                 </tbody>
             </table>
-            <a href="#" class="btn btn-outline-primary">add new Branche</a>
+            <a href="{% url 'newBranche' %}" class="btn btn-outline-primary">add new Branche</a>
         </div>
-    </div>
-    
-</body>
-</html>
+{%endblock%}  

@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{%block title%}new branche{%endblock%}
+{%block breadcrumbList%}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'Branches' %}">Branches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">new branche</li>
+{%endblock%}      
+{%block content%}             
+            <div class="border border-2 border-dark bg-light shadow-lg p-5 rounded-4">
+                <h3 class="text-center mb-3 opacity-75">add new branche</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">branche name</label>
+                        <input class="form-control" type="text" placeholder="Enter branche name" name="brancheName" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">branche address</label>
+                        <input class="form-control" type="text" placeholder="Enter branche address" name="brancheAddress" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">branche address</label>
+                        <input class="form-control" type="email" placeholder="Enter branche email" name="brancheEmail"/>
+                    </div>
+                    <input type="submit" value="add branche" class="btn btn-outline-success">
+                </form>
+                {% if err %}
+                    {{err}}
+                {%endif%}
+            </div>
+{%endblock%}
