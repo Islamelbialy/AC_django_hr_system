@@ -23,5 +23,9 @@ urlpatterns = [
     path('',companyViews.BranchesView,name='Branches'),
     path('<int:branche_id>/',companyViews.BrancheDetailsView,name='BrancheDetails'),
     path('newBranche/',companyViews.newBrancheView,name='newBranche'),
-    path('view/',companyViews.view,name='viewURL'),
+    path('newDepartmentToBranche/<int:branche_id>/',companyViews.newDepartmentToBranche,name='newDepartmentToBranche'),
+
+
+
+    # path('view/',companyViews.view,name='viewURL'),
 ]

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Branches
 from django.db import IntegrityError
-
+from .form import addDepartmentToForm
 # Create your views here.
 
 # def BranchesView(request):
@@ -50,5 +50,13 @@ def newBrancheView(request):
          return render(request,"newBranche.html",{"err":"error exists"})
    return render(request,"newBranche.html")
 
-def view(request):
-   return HttpResponse("<h1>view 2</h1>")
+def newDepartmentToBranche(request,branche_id):
+   branche = Branches.objects.get(pk = branche_id)
+   form = addDepartmentToForm()
+   if request.method == 'POST':
+      form = addDepartmentToForm(request.POST)
+
+   return render(request,"newDepartmentToBranche.html",{"branche":branche,"form":form})
+
+# def view(request):
+#    return HttpResponse("<h1>view 2</h1>")

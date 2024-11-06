@@ -1,0 +1,30 @@
+
+{% extends 'base.html'%}
+{%block title%}add department to {{branche.name}} baranch{%endblock%}
+
+{%block breadcrumbList%}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'Branches' %}">Branches</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'BrancheDetails' branche.pk %}">{{branche.name}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">add department to {{branche.name}} baranch</li>
+{%endblock%}
+
+{%block content%}
+    {% load widget_tweaks %}
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
+        {%if form.is_bound %}
+        {%else%}
+            {% for field in form%}
+                <div class="mb-3">
+                    {{ field.label}}
+                    {% with palceholderText="Enter " %}
+                    {% render_field field class="form-control" placeholder=palceholderText|add:field.label %}
+                    {% endwith%}
+                </div>
+            {% endfor %}
+        {%endif%}
+        <input type="submit" value="add department" class="btn btn-outline-success">
+    </form>
+
+{%endblock%}

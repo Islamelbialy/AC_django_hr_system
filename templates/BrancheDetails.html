@@ -15,6 +15,9 @@
                     </p>
                   </div>
             </div>
+            <div class="mb-3 mt-2">
+                <a href="#" class="btn btn-outline-primary">Edit branche</a>
+            </div>
             <div class="bg-secondary-subtle mt-5 rounded-4 shadow-sm p-5 border border-2 border-dark">
                 <div class="card-body">
                     <h5 class="card-title mb-3 text-primary">{{branche.name}} Departments</h5>
@@ -40,6 +43,9 @@
                            no departments added to this branche
                         </div>
                     {%endif%}
+                    <div class="mt-2">
+                        <a href="{%url 'newDepartmentToBranche' branche.pk %}" class="btn btn-outline-primary">add department to branche</a>
+                    </div>
                 </div>
             </div>
 {%endblock%}
