@@ -37,6 +37,11 @@ def BrancheDetailsView(request,branche_id):
    branche = Branches.objects.get(pk = branche_id)
    return render(request,"company/BrancheDetails.html",{"branche":branche})
 
+def DepartmentDetailsView(request,branche_id,departmnet_id):
+   branche = Branches.objects.get(pk = branche_id)
+   department = Departments.objects.get(pk = departmnet_id)
+   return render(request,"company/DepartmentsDetails.html",{"branche":branche,"departmnet":department})
+
 def newBrancheView(request):
    if request.method == 'POST':
       try:
@@ -68,6 +73,31 @@ def newDepartmentToBranche(request,branche_id):
          return render(request,"company/newDepartmentToBranche.html",{"branche":branche,"form":form})
    else:
       return render(request,"company/newDepartmentToBranche.html",{"branche":branche,"form":form})
+
+def EditDepartmentToBranche(request,branche_id,departmnet_id):
+   branche = Branches.objects.get(pk = branche_id)
+   department = Departments.objects.get(pk = departmnet_id)
+   form = addDepartmentToForm()
+   form.fields['name'].initial = department.name
+   form.fields['phone'].initial = department.phone
+   form.fields['describtion'].initial = department.describtion
+   if request.method == 'POST':
+      form = addDepartmentToForm(request.POST)
+      if form.is_valid():
+         if Departments.objects.filter(name = form.cleaned_data['name'],branche_id = branche_id).exclude(pk = departmnet_id).exists():
+            form.add_error('name','this department is already exists in this branch')
+            return render(request,'company/EditDepartmentToBranche.html',{'form':form,"departmnet":department,'branche':branche})
+
+         FormDepartment = form.save(commit=False)
+         department.name = FormDepartment.name
+         department.phone = FormDepartment.phone
+         department.describtion = FormDepartment.describtion
+         department.save()
+         return render(request,"company/DepartmentsDetails.html",{"branche": branche,"departmnet":department})
+      else:
+         return render(request,"company/EditDepartmentToBranche.html",{"branche":branche,"departmnet":department,"form":form})
+   else:
+      return render(request,"company/EditDepartmentToBranche.html",{"branche":branche,"departmnet":department,"form":form})
 
 # def view(request):
 #    return HttpResponse("<h1>view 2</h1>")

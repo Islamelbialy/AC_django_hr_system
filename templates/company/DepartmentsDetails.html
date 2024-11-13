@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{%block title%}{{departmnet.name}} details {%endblock%}
+{%block breadcrumbList%}
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'Branches' %}">Branches</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{%url 'BrancheDetails' branche.pk %}">{{branche.name}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{departmnet.name}}</li>
+{%endblock%}
+{%block content%}
+            <div class="bg-secondary-subtle mt-5 rounded-4 shadow-sm p-5 border border-2 border-dark">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 text-primary">{{departmnet.name}} details</h5>
+                    <p class="card-text">
+                        <strong>Name: </strong>{{departmnet.name}}<br/>
+                        <strong>phone: </strong>{{departmnet.phone}}<br/>
+                        <strong>describtion: </strong>{%if departmnet.describtion %}{{departmnet.describtion}}{%else%}no email{%endif%}<br/>
+                        <strong>branche: </strong>{{departmnet.branche}}<br/>
+                    </p>
+                  </div>
+            </div>
+            <div class="mb-3 mt-2">
+                <a href="{%url 'EditDepartmentToBranche' branche.id departmnet.pk %}" class="btn btn-outline-primary">Edit Department</a>
+            </div>
+            
+{%endblock%}

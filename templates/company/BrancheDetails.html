@@ -31,7 +31,7 @@
                             <tbody>
                                 {% for department in branche.branche_dept.all %}
                                     <tr>
-                                        <td>{{department.name}}</td>
+                                        <td><a href="{%url 'DepartmentDetails' branche.pk department.pk %}">{{department.name}}</a></td>
                                         <td>{%if department.phone %}{{department.phone}}{%else%}no phone{%endif%}</td>
                                         <td>{{department.describtion}}</td>
                                     </tr>
