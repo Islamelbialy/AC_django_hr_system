@@ -1,0 +1,38 @@
+
+{% load widget_tweaks %}
+{% csrf_token %}
+<!-- {{ form.as_p }} -->
+{%if form.is_bound %}
+    {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label">{{field.label}}</label>
+            {%if field.errors%}
+                {% with palceholderText="Enter " %}
+                    {% render_field field class="form-control is-invalid" placeholder=palceholderText|add:field.label%}
+                {% endwith%}
+                {%for error in field.errors%}
+                    <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                        {{error}}
+                    </div>
+                {%endfor%}
+            {%else%}
+                {% with palceholderText="Enter " %}
+                    {% render_field field class="form-control is-valid" placeholder=palceholderText|add:field.label%}
+                {% endwith%}
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            {%endif%}
+        </div>
+    {%endfor%}
+{%else%}
+    {% for field in form%}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {% with palceholderText="Enter " %}
+            {% render_field field class="form-control" placeholder=palceholderText|add:field.label %}
+            {% endwith%}
+            <p class="text-secondary opacity-75">{{field.help_text}}</p>
+        </div>
+    {% endfor %}
+{%endif%}
