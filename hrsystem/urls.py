@@ -20,7 +20,8 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('company.urls'))
+    path('',include('company.urls')),
+    path('',include('registeration.urls')),
     # path('',companyViews.BranchesView,name='Branches'),
     # path('<int:branche_id>/',companyViews.BrancheDetailsView,name='BrancheDetails'),
     # path('newBranche/',companyViews.newBrancheView,name='newBranche'),
