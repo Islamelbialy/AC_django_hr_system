@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_DB=AC_HR_System
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=AC_HR_System
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=root
+
+volumes:
+  postgres_data:

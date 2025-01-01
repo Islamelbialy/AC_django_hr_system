@@ -2,14 +2,18 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from .models import Branches,Departments
 from django.db import IntegrityError
 from .form import addDepartmentToForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView,CreateView
 from django.urls import reverse_lazy
+from rest_framework import viewsets
+from .serializers import BranchesSerializer
 # Create your views here.
+
+
 
 # def BranchesView(request):
 #    branches  = Branches.objects.all()
@@ -132,31 +136,68 @@ class newDepartmentToBranche(CreateView):
       return redirect("BrancheDetails",branche_id =  self.kwargs["branche_id"])
 
 
-def EditDepartmentToBranche(request,branche_id,departmnet_id):
-   branche = Branches.objects.get(pk = branche_id)
-   department = Departments.objects.get(pk = departmnet_id)
-   form = addDepartmentToForm()
-   form.fields['name'].initial = department.name
-   form.fields['phone'].initial = department.phone
-   form.fields['describtion'].initial = department.describtion
-   if request.method == 'POST':
-      form = addDepartmentToForm(request.POST)
-      if form.is_valid():
-         if Departments.objects.filter(name = form.cleaned_data['name'],branche_id = branche_id).exclude(pk = departmnet_id).exists():
-            form.add_error('name','this department is already exists in this branch')
-            return render(request,'company/EditDepartmentToBranche.html',{'form':form,"departmnet":department,'branche':branche})
+# def EditDepartmentToBranche(request,branche_id,departmnet_id):
+#    branche = Branches.objects.get(pk = branche_id)
+#    department = Departments.objects.get(pk = departmnet_id)
+#    form = addDepartmentToForm()
+#    form.fields['name'].initial = department.name
+#    form.fields['phone'].initial = department.phone
+#    form.fields['describtion'].initial = department.describtion
+#    if request.method == 'POST':
+#       form = addDepartmentToForm(request.POST)
+#       if form.is_valid():
+#          if Departments.objects.filter(name = form.cleaned_data['name'],branche_id = branche_id).exclude(pk = departmnet_id).exists():
+#             form.add_error('name','this department is already exists in this branch')
+#             return render(request,'company/EditDepartmentToBranche.html',{'form':form,"departmnet":department,'branche':branche})
 
-         FormDepartment = form.save(commit=False)
-         department.name = FormDepartment.name
-         department.phone = FormDepartment.phone
-         department.describtion = FormDepartment.describtion
-         department.save()
-         return render(request,"company/DepartmentsDetails.html",{"branche": branche,"departmnet":department})
-      else:
-         return render(request,"company/EditDepartmentToBranche.html",{"branche":branche,"departmnet":department,"form":form})
-   else:
-      return render(request,"company/EditDepartmentToBranche.html",{"branche":branche,"departmnet":department,"form":form})
+#          FormDepartment = form.save(commit=False)
+#          department.name = FormDepartment.name
+#          department.phone = FormDepartment.phone
+#          department.describtion = FormDepartment.describtion
+#          department.save()
+#          return render(request,"company/DepartmentsDetails.html",{"branche": branche,"departmnet":department})
+#       else:
+#          return render(request,"company/EditDepartmentToBranche.html",{"branche":branche,"departmnet":department,"form":form})
+#    else:
+#       return render(request,"company/EditDepartmentToBranche.html",{"branche":branche,"departmnet":department,"form":form})
 
 # def view(request):
 #    return HttpResponse("<h1>view 2</h1>")
+
+class EditDepartmentToBranche(CreateView):
+   form_class = addDepartmentToForm
+   template_name = "company/EditDepartmentToBranche.html"
+
+   def dispatch(self, request, *args, **kwargs):
+      self.branch =  Branches.objects.get(pk = self.kwargs["branche_id"])
+      self.dept = Departments.objects.get(pk = self.kwargs["departmnet_id"])
+      return super().dispatch(request, *args, **kwargs)
+
+
+   def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      context["branche"] = self.branch
+      context["departmnet"] = self.dept
+      return context
+   
+   def get_initial(self):
+      dept = self.dept
+      initial = super().get_initial()
+      initial["name"] = dept.name
+      initial["phone"] = dept.phone
+      initial["describtion"] = dept.describtion
+      return initial
+   
+   def form_valid(self, form):
+      if Departments.objects.filter(name = form.cleaned_data['name'],branche_id = self.kwargs['branche_id']).exclude(pk = self.kwargs['departmnet_id']).exists():
+            form.add_error('name','this department is already exists in this branch')
+            return self.form_invalid()
+
+      department = self.dept
+      FormDepartment = form.save(commit=False)
+      department.name = FormDepartment.name
+      department.phone = FormDepartment.phone
+      department.describtion = FormDepartment.describtion
+      department.save()
+      return redirect("DepartmentDetails",branche_id =  self.kwargs["branche_id"],departmnet_id = self.kwargs["departmnet_id"])
 
